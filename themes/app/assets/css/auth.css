@@ -1,0 +1,29 @@
+.login-signin input {
+    border-radius: 2rem;
+    border: unset;
+}
+
+.login-form {
+    background-color: #381369;
+    border-radius: 2rem;
+    -webkit-box-shadow: 5px 5px 10px 0 #000000;
+    box-shadow: 5px 5px 10px 0 #000000;
+}
+
+.bg-login {
+    background-color: rgba(43, 80, 142, 0.5);
+}
+
+@media (max-width: 575.98px){
+    .login.login-4 .login-form {
+        width: 95%;
+        max-width: 100%;
+    }
+}
+
+
+@media only screen and (min-width: 0px)  and (max-width: 425px) {
+    .login-form {
+        box-shadow: unset;
+    }
+}

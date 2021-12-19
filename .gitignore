@@ -1,0 +1,16 @@
+/vendor
+.env
+.env_prod
+/storage/images/artes/*
+/storage/images/categorias/*
+/storage/images/blog/source/*
+/storage/images/blog/thumbs/*
+/storage/images/blog/*
+/storage/images/cache/*
+/storage/csv/*
+teste
+access.txt
+.idea/
+.idea
+webhook.txt
+nao_encontrado.txt
