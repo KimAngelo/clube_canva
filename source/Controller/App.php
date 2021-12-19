@@ -43,10 +43,11 @@ class App extends Controller
      */
     public function __construct($router)
     {
+
         $this->session = new Session();
         /*$this->session->destroy();*/
         if (!$this->user = User::user()) {
-            $this->router->redirect('auth.login');
+            $router->redirect('auth.login');
         }
 
         (new Access())->report();

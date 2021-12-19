@@ -7,6 +7,8 @@ namespace Source\Controller;
 use Source\Core\Controller;
 use Source\Core\Session;
 use Source\Core\View;
+use Source\Models\Category;
+use Source\Models\Pack;
 use Source\Models\User;
 use Source\Support\Email;
 
@@ -22,7 +24,13 @@ class Auth extends Controller
      */
     public function __construct($router)
     {
-        parent::__construct($router, __DIR__ . "/../../themes/" . CONF_VIEW_APP . "/");
+        $data = [
+            'router' => $router,
+            'packs' => (new Pack())->find()->order('name')->fetch(true),
+            "categories_pop_up" => (new Category())->find()->order('name')->fetch(true)
+        ];
+
+        parent::__construct($data, __DIR__ . "/../../themes/" . CONF_VIEW_APP . "/");
     }
 
     /**
