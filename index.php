@@ -1,6 +1,7 @@
 <?php
 ob_start();
-
+var_dump("teste");
+exit;
 require "vendor/autoload.php";
 
 use CoffeeCode\Router\Router;
