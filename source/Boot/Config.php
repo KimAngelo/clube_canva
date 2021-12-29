@@ -1,6 +1,7 @@
 <?php
 
 
+
 require __DIR__ . "/../../vendor/autoload.php";
 
 //Inicia variáveis de ambiente
@@ -31,7 +32,6 @@ define("DATA_LAYER_CONFIG", [
         PDO::ATTR_CASE => PDO::CASE_NATURAL
     ]
 ]);
-
 
 /**
  * SITE
@@ -132,4 +132,3 @@ define("CONF_MAIL_OPTION_CHARSET", "utf-8");
  * HOTMART
  */
 define("TOKEN_NOTIFICATION_HOTMART", env("TOKEN_NOTIFICATION_HOTMART", ""));
-

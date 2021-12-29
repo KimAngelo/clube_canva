@@ -2,7 +2,7 @@
 
 <div class="row mt-10 align-items-center">
     <div class="col-md-6">
-        <label class="color-theme font-weight-bold"><?= $name_category ?></label>
+        <label class="color-theme font-weight-bolder font-size-h2"><?= $name_category ?></label>
     </div>
     <div class="col-md-6 order-first order-md-last">
         <?= $this->insert('views/_search') ?>

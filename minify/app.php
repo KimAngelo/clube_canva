@@ -25,6 +25,7 @@ $minJS->add(__DIR__ . "/../themes/" . CONF_VIEW_APP . "/assets/plugins/global/pl
 $minJS->add(__DIR__ . "/../themes/" . CONF_VIEW_APP . "/assets/plugins/custom/prismjs/prismjs.bundle.js");
 $minJS->add(__DIR__ . "/../themes/" . CONF_VIEW_APP . "/assets/js/scripts.bundle.js");
 $minJS->add(__DIR__ . "/../themes/" . CONF_VIEW_APP . "/assets/plugins/custom/owlcarousel/owl.carousel.min.js");
+$minJS->add(__DIR__ . "/../shared/assets/js/axios.js");
 $minJS->add(__DIR__ . "/../themes/" . CONF_VIEW_APP . "/assets/js/form.js");
 
 //Minify JS

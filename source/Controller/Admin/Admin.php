@@ -23,6 +23,7 @@ use Source\Models\User;
 use Source\Support\AwsS3;
 use Source\Support\Glide;
 use Source\Support\Pager;
+use Source\Support\Redis;
 use Source\Support\Thumb;
 
 /**
@@ -36,6 +37,8 @@ class Admin extends Controller
      */
     private $session;
 
+    private $redis;
+
     /**
      * Admin constructor.
      * @param $router
@@ -46,6 +49,7 @@ class Admin extends Controller
         if (!$this->session->has('adminUser')) {
             $this->router->redirect('admin.auth_login');
         }
+        $this->redis = new Redis();
         $data = ['router' => $router];
         parent::__construct($data, __DIR__ . "/../../../themes/" . CONF_VIEW_ADMIN . "/");
     }
@@ -505,6 +509,9 @@ class Admin extends Controller
             $categories->name = $data['name'];
             $categories->slug = str_slug($data['name']);
             if ($categories->save()) {
+                //Limpa Redis
+                $this->redis->del(['categories_popup', 'featured_categories']);
+
                 $this->message->success("Categoria criada com sucesso!")->flash();
                 echo json_encode(['refresh' => true]);
                 return;
@@ -563,6 +570,9 @@ class Admin extends Controller
             $category->slug = str_slug($data['name']);
 
             if ($category->save()) {
+                //Limpa Redis
+                $this->redis->del(['categories_popup', 'featured_categories']);
+
                 $json['message_success'] = "Categoria  atualizada com sucesso";
                 echo json_encode($json);
                 return;
@@ -592,6 +602,9 @@ class Admin extends Controller
                 $aws->delete(CONF_UPLOAD_IMAGE_DIR_CATEGORY . "/" . $category->thumb);
             }
             if ($category->destroy()) {
+                //Limpa Redis
+                $this->redis->del(['categories_popup', 'featured_categories']);
+
                 $this->message->success("Categoria apagada com sucesso")->flash();
                 echo json_encode(['refresh' => true]);
                 return;
@@ -611,6 +624,8 @@ class Admin extends Controller
                 $category->order_key = $key;
                 $category->save();
             }
+            //Limpa Redis
+            $this->redis->del('featured_categories');
             return;
         }
 
@@ -620,6 +635,8 @@ class Admin extends Controller
             $category = (new Category())->findById($data['id']);
             $category->featured = $category->featured == 1 ? 0 : 1;
             $category->save();
+            //Limpa Redis
+            $this->redis->del('featured_categories');
             return;
         }
 
@@ -659,6 +676,9 @@ class Admin extends Controller
             $packs->name = $data['name'];
             $packs->slug = str_slug($data['name']);
             if ($packs->save()) {
+                //Limpa Redis
+                $this->redis->del('all_packs');
+
                 $this->message->success("Pack criado com sucesso!")->flash();
                 echo json_encode(['refresh' => true]);
                 return;
@@ -690,6 +710,9 @@ class Admin extends Controller
             $pack->name = $data['name'];
             $pack->slug = str_slug($data['name']);
             if ($pack->save()) {
+                //Limpa Redis
+                $this->redis->del('all_packs');
+
                 $json['message_success'] = "Pack atualizado com sucesso!";
                 echo json_encode($json);
                 return;
@@ -709,6 +732,9 @@ class Admin extends Controller
                 return;
             }
             if ($pack->destroy()) {
+                //Limpa Redis
+                $this->redis->del('all_packs');
+                
                 $this->message->success("Pack apagado com sucesso!")->flash();
                 echo json_encode(['refresh' => true]);
                 return;

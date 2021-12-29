@@ -9,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
     <?= css_version_control('style', CONF_VIEW_APP) ?>
-    <link href="<?= theme('assets/css/custom.css') ?>" rel="stylesheet" type="text/css"/>
+    <?= css_version_control('css/custom', CONF_VIEW_APP) ?>
+
     <link rel="shortcut icon" href="<?= url("storage/images/site/icon-ico.ico"); ?>"/>
 
     <meta name="theme-color" content="#7C2AE8">
@@ -49,7 +50,7 @@
                 <div class="d-flex flex-column-fluid">
                     <!--begin::Container-->
                     <div class="container">
-                        <div class="row mt-8 mt-lg-0">
+                        <div class="row mt-8 mt-lg-10">
                             <div class="col-12">
                                 <?= flash(); ?>
                                 <div class="ajax_response"></div>
@@ -99,7 +100,8 @@
 
 <script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
 <!--begin::Global Config(global config for global JS scripts)-->
-<script>var KTAppSettings = {"breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1400},
+<script>var KTAppSettings = {
+        "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1400},
         "colors": {
             "theme": {
                 "base": {

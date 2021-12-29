@@ -13,6 +13,7 @@ use Source\Models\Blog\Post;
 use Source\Models\Category;
 use Source\Models\DynamicFields;
 use Source\Models\Faq;
+use Source\Models\FavoriteCategory;
 use Source\Models\History;
 use Source\Models\Pack;
 use Source\Models\Report\Access;
@@ -20,6 +21,7 @@ use Source\Models\Report\Online;
 use Source\Models\User;
 use Source\Support\Email;
 use Source\Support\Pager;
+use Source\Support\Redis;
 
 /**
  * Class App
@@ -54,8 +56,8 @@ class App extends Controller
         (new Online())->report();
         $data = [
             'router' => $router,
-            'packs' => (new Pack())->find()->order('name')->fetch(true),
-            "categories_pop_up" => (new Category())->find()->order('name')->fetch(true)
+            'packs' => (new Pack())->all(),
+            "categories_pop_up" => (new Category())->popup()
         ];
         parent::__construct($data, __DIR__ . "/../../themes/" . CONF_VIEW_APP . "/");
     }
@@ -65,6 +67,11 @@ class App extends Controller
      */
     public function home()
     {
+        if (empty($this->user->favorite_categories)) {
+            $this->message->info("Selecione suas categorias favoritas, isso nos ajuda a melhorar a plataforma pra você 😊")->flash();
+            $this->router->redirect('app.favorite.categories');
+        }
+
         $head = $this->seo->render(
             CONF_SITE_NAME,
             CONF_SITE_DESC,
@@ -75,7 +82,7 @@ class App extends Controller
 
         echo $this->view->render("home", [
             "head" => $head,
-            "featured_categories" => (new Category())->find()->order('order_key')->limit(10)->fetch(true),
+            "featured_categories" => (new Category())->featured_categories(),
             "arts" => (new Art())->find('', '', 'id, name, thumb')->order('id DESC')->limit(24)->fetch(true)
         ]);
     }
@@ -442,6 +449,56 @@ class App extends Controller
             "head" => $head,
             "dynamic_fields" => (new DynamicFields())->find()->fetch(),
             "faqs" => (new Faq())->find()->fetch(true)
+        ]);
+    }
+
+    public function favoriteCategories(?array $data)
+    {
+        $categories = new Category();
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (isset($data['action']) && $data['action'] == "add_favorite") {
+            $array_user = explode(';', $this->user->favorite_categories);
+
+            /** @var  $favorite_category FavoriteCategory */
+            $favorite_category = (new FavoriteCategory())->find("id_user = :id_user AND id_category = :id_category",
+                "id_user={$this->user->id}&id_category={$data['id_category']}")->fetch();
+
+            //Remove dos favoritos
+            if ($favorite_category) {
+                //Procura o id da categoria dentro do array
+                if (($key = array_search($data['id_category'], $array_user)) !== false) {
+                    unset($array_user[$key]);
+                }
+                $this->user->favorite_categories = !in_array('', $array_user) ? implode(';', $array_user) : "";
+                $this->user->save();
+                $favorite_category->destroy();
+                return;
+            }
+
+            //Adiciona a categoria aos favoritos
+            $favorite_category = new FavoriteCategory();
+            $favorite_category->id_user = $this->user->id;
+            $favorite_category->id_category = $data['id_category'];
+            $favorite_category->save();
+
+            $this->user->favorite_categories = in_array('', $array_user) ? $data['id_category'] : implode(';', array_merge([$data['id_category']], $array_user));
+            $this->user->save();
+            return;
+        }
+
+        $head = $this->seo->render(
+            "Categorias Favoritas | " . CONF_SITE_NAME,
+            CONF_SITE_DESC,
+            $this->router->route("app.favorite.categories"),
+            image(CONF_SITE_SHARE, 1200, 630, CONF_UPLOAD_IMAGE_DIR_SITE),
+            false
+        );
+
+        echo $this->view->render("favoriteCategories", [
+            "head" => $head,
+            "favorite_categories" => explode(';', $this->user->favorite_categories)
         ]);
     }
 }

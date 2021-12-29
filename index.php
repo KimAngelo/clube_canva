@@ -1,7 +1,7 @@
 <?php
 ob_start();
 
-ini_set('display_errors', 1);
+//ini_set('display_errors', 1);
 
 require "vendor/autoload.php";
 
@@ -28,6 +28,8 @@ $router->get("/hoje", "App:today", "app.today");
 $router->get("/abrir/{id}", "App:openArt", "app.open.art");
 $router->get("/suporte", "App:support", "app.support");
 $router->post("/suporte", "App:support", "app.support");
+$router->get("/categorias-favoritas", "App:favoriteCategories", "app.favorite.categories");
+$router->post("/categorias-favoritas", "App:favoriteCategories", "app.favorite.categories");
 
 //Perfil
 $router->get("/perfil", "App:profile", "app.profile");
