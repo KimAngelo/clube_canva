@@ -1,17 +1,16 @@
 <?php
 ob_start();
 
-
 ini_set('display_errors', 1);
 
-require "vendor/autoload.php";
+require __DIR__."/vendor/autoload.php";
 
 use CoffeeCode\Router\Router;
 
 date_default_timezone_set('America/Sao_Paulo');
 
 //Inicio das rotas
-$router = new Router(url(), ":");
+$router = new Router(env('URL_BASE'), ":");
 $router->namespace("Source\Controller");
 
 /**
@@ -113,9 +112,9 @@ $router->post("/troca-de-plano", "Webhook:changePlan");
 /**
  * ERROR ROUTES
  */
-$router->namespace("Source\Controller\Admin");
+$router->namespace("Source\Controller");
 $router->group("/ops");
-$router->get("/{errcode}", "Auth:error", "admin.error");
+$router->get("/{errcode}", "App:error", "app.error");
 
 /**
  * ROUTE

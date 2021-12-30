@@ -16,12 +16,9 @@ use Source\Models\Faq;
 use Source\Models\FavoriteCategory;
 use Source\Models\History;
 use Source\Models\Pack;
-use Source\Models\Report\Access;
-use Source\Models\Report\Online;
 use Source\Models\User;
 use Source\Support\Email;
 use Source\Support\Pager;
-use Source\Support\Redis;
 
 /**
  * Class App
@@ -45,15 +42,14 @@ class App extends Controller
      */
     public function __construct($router)
     {
-
         $this->session = new Session();
         /*$this->session->destroy();*/
         if (!$this->user = User::user()) {
             $router->redirect('auth.login');
         }
 
-        (new Access())->report();
-        (new Online())->report();
+        /*(new Access())->report();
+        (new Online())->report();*/
         $data = [
             'router' => $router,
             'packs' => (new Pack())->all(),
@@ -67,6 +63,7 @@ class App extends Controller
      */
     public function home()
     {
+
         if (empty($this->user->favorite_categories)) {
             $this->message->info("Selecione suas categorias favoritas, isso nos ajuda a melhorar a plataforma pra você 😊")->flash();
             $this->router->redirect('app.favorite.categories');
@@ -438,7 +435,7 @@ class App extends Controller
         }
 
         $head = $this->seo->render(
-            "Seus Downloads de hoje | " . CONF_SITE_NAME,
+            "Suporte | " . CONF_SITE_NAME,
             CONF_SITE_DESC,
             $this->router->route("app.support"),
             image(CONF_SITE_SHARE, 1200, 630, CONF_UPLOAD_IMAGE_DIR_SITE),
@@ -500,5 +497,10 @@ class App extends Controller
             "head" => $head,
             "favorite_categories" => explode(';', $this->user->favorite_categories)
         ]);
+    }
+
+    public function error($data)
+    {
+        var_dump($data);
     }
 }
