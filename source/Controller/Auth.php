@@ -46,11 +46,11 @@ class Auth extends Controller
         if (isset($data['csrf']) && !empty($data['csrf'])) {
             $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
 
-            if (!csrf_verify($data)) {
+            /*if (!csrf_verify($data)) {
                 $json['message'] = $this->message->error('Ooops! Ocorreu um erro, entre em contato com o suporte')->render();
                 echo json_encode($json);
                 return;
-            }
+            }*/
             if (in_array("", $data)) {
                 $json['message'] = $this->message->warning('Informe seu e-mail e senha para continuar')->render();
                 echo json_encode($json);
