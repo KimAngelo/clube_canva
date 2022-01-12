@@ -17,7 +17,7 @@ class Plan extends DataLayer
      */
     public function __construct()
     {
-        parent::__construct('plans', ['name', 'limit_day', 'cod_hotmart']);
+        parent::__construct('plans', ['name', 'limit_day']);
     }
 
     /**

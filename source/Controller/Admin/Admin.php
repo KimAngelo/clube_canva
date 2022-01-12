@@ -377,8 +377,18 @@ class Admin extends Controller
                 echo json_encode($json);
                 return;
             }
-            if (empty(trim($data['cod_hotmart']))) {
-                $json['message_warning'] = "Preencha o código da hotmart";
+            if (empty(trim($data['cod_reference']))) {
+                $json['message_warning'] = "Preencha o código de referência";
+                echo json_encode($json);
+                return;
+            }
+            if (empty(trim($data['gateway']))) {
+                $json['message_warning'] = "Selecione um gateway de pagamento";
+                echo json_encode($json);
+                return;
+            }
+            if (empty(trim($data['period']))) {
+                $json['message_warning'] = "Selecione um período do plano";
                 echo json_encode($json);
                 return;
             }
@@ -388,7 +398,9 @@ class Admin extends Controller
         if (isset($data['action']) && $data['action'] == "create") {
             $plans->name = $data['name'];
             $plans->limit_day = $data['limit_day'];
-            $plans->cod_hotmart = $data['cod_hotmart'];
+            $plans->cod_reference = $data['cod_reference'];
+            $plans->gateway = $data['gateway'];
+            $plans->period = $data['period'];
 
             if ($plans->save()) {
                 $this->message->success("Plano criado com sucesso!")->flash();
@@ -411,7 +423,9 @@ class Admin extends Controller
             }
             $plan->name = $data['name'];
             $plan->limit_day = $data['limit_day'];
-            $plan->cod_hotmart = $data['cod_hotmart'];
+            $plan->cod_reference = $data['cod_reference'];
+            $plan->gateway = $data['gateway'];
+            $plan->period = $data['period'];
 
             if ($plan->save()) {
                 $this->message->success("Plano atualizado com sucesso!")->flash();
@@ -734,7 +748,7 @@ class Admin extends Controller
             if ($pack->destroy()) {
                 //Limpa Redis
                 $this->redis->del('all_packs');
-                
+
                 $this->message->success("Pack apagado com sucesso!")->flash();
                 echo json_encode(['refresh' => true]);
                 return;

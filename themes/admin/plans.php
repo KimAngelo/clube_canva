@@ -25,7 +25,8 @@
                     <?= flash() ?>
                     <?php if (!empty($plans)): ?>
                         <!--begin: Datatable-->
-                        <table class="table table-separate table-head-custom table-checkable table-responsive-sm" id="table_1">
+                        <table class="table table-separate table-head-custom table-checkable table-responsive-sm"
+                               id="table_1">
                             <thead>
                             <tr>
                                 <th>Id</th>
@@ -118,25 +119,52 @@
                         <input type="hidden" name="action" value="update">
                         <input type="hidden" name="id" value="<?= $plan->id ?>">
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-8">
                                 <div class="form-group">
                                     <label>Nome do plano</label>
-                                    <input value="<?= $plan->name ?>" required name="name" type="text"
-                                           class="form-control" placeholder="Digite aqui"/>
+                                    <input value="<?= $plan->name ?>" name="name" type="text" class="form-control"
+                                           placeholder="Digite aqui"/>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group">
                                     <label>Limite diário</label>
-                                    <input required name="limit_day" value="<?= $plan->limit_day ?>" type="number"
-                                           class="form-control" placeholder="Digite aqui"/>
+                                    <input name="limit_day" type="number" class="form-control"
+                                           value="<?= $plan->limit_day ?>" placeholder="Digite aqui"/>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group">
-                                    <label>Código da hotmart</label>
-                                    <input required name="cod_hotmart" value="<?= $plan->cod_hotmart ?>" type="text"
-                                           class="form-control" placeholder="Digite aqui"/>
+                                    <label>Cód. Referência</label>
+                                    <input name="cod_reference" type="text" class="form-control"
+                                           value="<?= $plan->cod_reference ?>" placeholder="Digite aqui"/>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="exampleSelect1">Gateway</label>
+                                    <select class="form-control" name="gateway">
+                                        <option <?= $plan->gateway == "mercado_pago" ? "selected" : "" ?>
+                                                value="mercado_pago">
+                                            Mercado Pago
+                                        </option>
+                                        <option <?= $plan->gateway == "hotmart" ? "selected" : "" ?> value="hotmart">
+                                            Hotmart
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="exampleSelect1">Período</label>
+                                    <select class="form-control" name="period">
+                                        <option <?= $plan->period == "1year" ? "selected" : "" ?> value="1year">1 ano
+                                        </option>
+                                        <option <?= $plan->period == "6months" ? "selected" : "" ?> value="6months">6 meses</option>
+                                        <option <?= $plan->period == "3months" ? "selected" : "" ?> value="3months">3 meses</option>
+                                        <option <?= $plan->period == "1month" ? "selected" : "" ?> value="1month">1 mes</option>
+                                        <option <?= $plan->period == "100years" ? "selected" : "" ?> value="100years">100 anos</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -165,24 +193,45 @@
                     <form action="" class="form" method="post">
                         <input type="hidden" name="action" value="create">
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-8">
                                 <div class="form-group">
                                     <label>Nome do plano</label>
                                     <input name="name" type="text" class="form-control" placeholder="Digite aqui"/>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group">
                                     <label>Limite diário</label>
                                     <input name="limit_day" type="number" class="form-control"
                                            placeholder="Digite aqui"/>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group">
-                                    <label>Código da hotmart</label>
-                                    <input name="cod_hotmart" type="text" class="form-control"
+                                    <label>Cód. Referência</label>
+                                    <input name="cod_reference" type="text" class="form-control"
                                            placeholder="Digite aqui"/>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="exampleSelect1">Gateway</label>
+                                    <select class="form-control" name="gateway">
+                                        <option value="mercado_pago">Mercado Pago</option>
+                                        <option value="hotmart">Hotmart</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="exampleSelect1">Período</label>
+                                    <select class="form-control" name="period">
+                                        <option value="1year">1 ano</option>
+                                        <option value="6months">6 meses</option>
+                                        <option value="3months">3 meses</option>
+                                        <option value="1month">1 mes</option>
+                                        <option value="100years">100 anos</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

@@ -17,7 +17,7 @@
                 <div role="button" class="ach_page__badges__item categories_favorite w-100 h-100"
                      data-favorite="<?= $category->id ?>">
                     <img loading="lazy" width="200"
-                         src="<?= image_glide($category->thumb, CONF_UPLOAD_IMAGE_DIR_CATEGORY, ['w' => 200, 'h' => 120, 'fit' => 'fill', 'bg' => '#fffff']) ?>"
+                         src="<?= image_glide($category->thumb, CONF_UPLOAD_IMAGE_DIR_CATEGORY, ['w' => 200, 'h' => 120]) ?>"
                          alt="">
                     <p><?= $category->name ?></p>
                     <span role="button" class="">
@@ -47,17 +47,19 @@
 <script>
     let categories = document.querySelectorAll('.categories_favorite');
     categories.forEach(function (category) {
+
         let id_category = category.getAttribute('data-favorite');
         category.addEventListener('click', () => {
+            let icon_heart = category.querySelector('.fa-heart');
+            icon_heart.classList.toggle("text-danger");
+            icon_heart.classList.toggle("animate__pulse");
             //const axios = require('axios');
             axios.post(BASE_SITE + '/categorias-favoritas', {
                 action: 'add_favorite',
                 id_category: id_category
             })
                 .then(function (response) {
-                    let icon_heart = category.querySelector('.fa-heart');
-                    icon_heart.classList.toggle("text-danger");
-                    icon_heart.classList.toggle("animate__pulse");
+
                 })
                 .catch(function (error) {
                     toastr.error('Ooops! Erro ao adicioanar favorito');

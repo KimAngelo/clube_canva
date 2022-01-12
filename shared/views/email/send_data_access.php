@@ -1,4 +1,4 @@
-<?php $v->layout("_theme", [
+<?php $this->layout("_theme", [
     "title" => "Dados de acesso | " . CONF_SITE_NAME
 ]); ?>
 

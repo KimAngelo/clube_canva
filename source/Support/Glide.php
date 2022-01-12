@@ -27,7 +27,7 @@ class Glide
         $s3 = new AwsS3();
         $this->server = ServerFactory::create([
             'source' => new Filesystem($s3->adapter()),
-            'cache' => new Filesystem($s3->adapter()),
+            'cache' => env('ENVIROMENT', 'PROD') == "DEV" ? __DIR__ . '/../../storage/images/cache' : new Filesystem($s3->adapter()),
             'cache_path_prefix' => 'cache_images',
         ]);
     }

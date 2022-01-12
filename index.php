@@ -3,7 +3,7 @@ ob_start();
 
 ini_set('display_errors', 1);
 
-require __DIR__."/vendor/autoload.php";
+require __DIR__ . "/vendor/autoload.php";
 
 use CoffeeCode\Router\Router;
 
@@ -108,6 +108,11 @@ $router->post("/compra-aprovada", "Webhook:approvedPurchase");
 $router->post("/compra-reembolsada", "Webhook:refundedPurchase");
 $router->post("/assinatura-cancelada", "Webhook:subscriptionCanceled");
 $router->post("/troca-de-plano", "Webhook:changePlan");
+
+/**
+ * MERCADO PAGO
+ */
+$router->post('/mercado-pago', "Webhook:mercadoPago");
 
 /**
  * ERROR ROUTES

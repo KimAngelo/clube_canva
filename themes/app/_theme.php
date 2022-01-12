@@ -100,6 +100,17 @@
 
 <?= js_version_control('scripts', CONF_VIEW_APP) ?>
 <?= $this->section("scripts") ?>
+<?php if (env('ONESIGNAL_ACTIVE', 'false') == "true"): ?>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function () {
+            OneSignal.init({
+                appId: "f7de0265-e9bf-4cb3-9e0d-1f92fc804680",
+            });
+        });
+    </script>
+<?php endif; ?>
 
 </body>
 <!--end::Body-->
