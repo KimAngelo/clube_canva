@@ -193,11 +193,11 @@ class Admin extends Controller
                 return;
             }
 
-            if (!csrf_verify($data)) {
+            /*if (!csrf_verify($data)) {
                 $json['message_error'] = "Ooops! Tente novamente mais tarde!";
                 echo json_encode($json);
                 return;
-            }
+            }*/
             if (empty(trim($title)) || strlen(trim($title)) < 2) {
                 $json['message_warning'] = "Digite um título válido para continuar";
                 echo json_encode($json);
@@ -285,11 +285,11 @@ class Admin extends Controller
                 return;
             }
 
-            if (!csrf_verify($data)) {
+            /*if (!csrf_verify($data)) {
                 $json['message_error'] = "Ooops! Tente novamente mais tarde!";
                 echo json_encode($json);
                 return;
-            }
+            }*/
             if (empty(trim($title)) || strlen(trim($title)) < 2) {
                 $json['message_warning'] = "Digite um título válido para continuar";
                 echo json_encode($json);
