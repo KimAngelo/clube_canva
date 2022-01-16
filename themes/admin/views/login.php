@@ -12,9 +12,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
     <!--end::Fonts-->
     <!--begin::Page Custom Styles(used by this page)-->
-    <link href="<?= theme("assets/css/pages/login/login-3.css", CONF_VIEW_PANEL) ?>" rel="stylesheet" type="text/css"/>
-    <?= css_version_control('style', CONF_VIEW_PANEL) ?>
+    <link href="<?= theme("assets/css/pages/login/login-3.css", CONF_VIEW_ADMIN) ?>" rel="stylesheet" type="text/css"/>
+    <?= css_version_control('style', CONF_VIEW_ADMIN) ?>
     <link rel="shortcut icon" href="<?= url("storage/images/site/icon-ico.ico"); ?>"/>
+
+    <meta name="theme-color" content="#7C2AE8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#7C2AE8">
+    <meta name="msapplication-navbutton-color" content="#7C2AE8">
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -30,7 +35,7 @@
             <div class="d-flex flex-column-auto flex-column pt-lg-1 pt-15">
                 <!--begin::Aside header-->
                 <a href="#" class="login-logo text-center pt-lg-10 pb-10">
-                    <img src="<?= url("/storage/images/site/" . CONF_IMAGE_LOGO); ?>" class="max-h-70px"
+                    <img src="<?= url("/storage/images/site/cc1080.png") ?>" class="max-h-70px"
                          alt="<?= CONF_SITE_NAME ?>"/>
                 </a>
                 <!--end::Aside header-->
@@ -99,7 +104,7 @@
     <!--end::Login-->
 </div>
 <!--end::Main-->
-<?= js_version_control('scripts', CONF_VIEW_PANEL) ?>
+<?= js_version_control('scripts', CONF_VIEW_ADMIN) ?>
 </body>
 <!--end::Body-->
 </html>
