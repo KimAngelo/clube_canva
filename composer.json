@@ -37,6 +37,7 @@
     "league/glide": "^2.1",
     "league/csv": "^9.7",
     "predis/predis": "*",
-    "ext-curl": "*"
+    "ext-curl": "*",
+    "ext-gd": "*"
   }
 }
