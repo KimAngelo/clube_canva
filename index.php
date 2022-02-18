@@ -108,11 +108,12 @@ $router->post("/compra-aprovada", "Webhook:approvedPurchase");
 $router->post("/compra-reembolsada", "Webhook:refundedPurchase");
 $router->post("/assinatura-cancelada", "Webhook:subscriptionCanceled");
 $router->post("/troca-de-plano", "Webhook:changePlan");
+$router->post("/hotmart", "Webhook:Hotmart", 'webhook.hotmart');
 
 /**
  * MERCADO PAGO
  */
-$router->post('/mercado-pago', "Webhook:mercadoPago");
+$router->post('/mercado-pago', "Webhook:mercadoPago", 'webhook.mercadopago');
 
 /**
  * ERROR ROUTES

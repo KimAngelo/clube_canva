@@ -32,6 +32,7 @@
                                 <th>Id</th>
                                 <th>Nome do plano</th>
                                 <th>Limite diário</th>
+                                <th>Gateway</th>
                                 <th>Qt usuários</th>
                                 <th>Ação</th>
                             </tr>
@@ -42,6 +43,7 @@
                                     <td><?= $plan->id ?></td>
                                     <td><?= $plan->name ?></td>
                                     <td><?= $plan->limit_day ?></td>
+                                    <td><?= gateway($plan->gateway) ?></td>
                                     <td><?= $plan->userCount() ?></td>
                                     <td>
                                         <div class="btn-toolbar justify-content-between" role="toolbar"
@@ -71,6 +73,46 @@
                     <?php else: ?>
                         <p>Nenhum plano cadastrado</p>
                     <?php endif; ?>
+
+                    <h3 class="mt-20 mb-10">Webhooks</h3>
+                    <h5 class="font-italic">Hotmart 1.0 <a class="btn btn-xs btn-icon btn-light ml-3"
+                                                           title="Ver vídeo de como fazer" target="_blank"
+                                                           href="https://www.loom.com/share/6660d53d8e894a9d8dbad640f5404b85?sharedAppSource=personal_library"><i
+                                    class="fas fa-video"></i></a></h5>
+                    <ul>
+                        <li>
+                            <span class="font-weight-bold">Compra aprovada:</span> <?= $router->route('webhook.hotmart.approvedPurchase') ?>
+                        </li>
+                        <li>
+                            <span class="font-weight-bold">Compra reembolsada:</span> <?= $router->route('webhook.hotmart.refundedPurchase') ?>
+                        </li>
+                        <li>
+                            <span class="font-weight-bold">Assinatura cancelada:</span> <?= $router->route('webhook.hotmart.subscriptionCanceled') ?>
+                        </li>
+                        <li>
+                            <span class="font-weight-bold">Troca de plano:</span> <?= $router->route('webhook.hotmart.changePlan') ?>
+                        </li>
+                    </ul>
+                    <h5 class="font-italic">Hotmart 2.0 <a class="btn btn-xs btn-icon btn-light ml-3"
+                                                           title="Ver vídeo de como fazer" target="_blank"
+                                                           href="https://www.loom.com/share/aa492ee9c0c34c419629cdef02ee39bd?sharedAppSource=personal_library"><i
+                                    class="fas fa-video"></i></a></h5>
+                    <ul>
+                        <li>
+                            <span class="font-weight-bold">Todos eventos:</span> <?= $router->route('webhook.hotmart') ?>
+                        </li>
+                    </ul>
+                    <h5 class="font-italic">Mercado Pago IPN <a class="btn btn-xs btn-icon btn-light ml-3"
+                                                                title="Ver vídeo de como fazer" target="_blank"
+                                                                href="https://www.loom.com/share/68ed75507cd9499daaa9ce1043aa6a37"><i
+                                    class="fas fa-video"></i></a></h5>
+                    <ul>
+                        <li>
+                            <span class="font-weight-bold">Todos eventos:</span> <?= $router->route('webhook.mercadopago') ?>
+                        </li>
+                    </ul>
+
+
                 </div>
             </div>
         </div>
@@ -160,10 +202,18 @@
                                     <select class="form-control" name="period">
                                         <option <?= $plan->period == "1year" ? "selected" : "" ?> value="1year">1 ano
                                         </option>
-                                        <option <?= $plan->period == "6months" ? "selected" : "" ?> value="6months">6 meses</option>
-                                        <option <?= $plan->period == "3months" ? "selected" : "" ?> value="3months">3 meses</option>
-                                        <option <?= $plan->period == "1month" ? "selected" : "" ?> value="1month">1 mes</option>
-                                        <option <?= $plan->period == "100years" ? "selected" : "" ?> value="100years">100 anos</option>
+                                        <option <?= $plan->period == "6months" ? "selected" : "" ?> value="6months">6
+                                            meses
+                                        </option>
+                                        <option <?= $plan->period == "3months" ? "selected" : "" ?> value="3months">3
+                                            meses
+                                        </option>
+                                        <option <?= $plan->period == "1month" ? "selected" : "" ?> value="1month">1
+                                            mes
+                                        </option>
+                                        <option <?= $plan->period == "100years" ? "selected" : "" ?> value="100years">
+                                            100 anos
+                                        </option>
                                     </select>
                                 </div>
                             </div>

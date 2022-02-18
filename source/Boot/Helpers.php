@@ -753,3 +753,18 @@ function generate_password($tamanho, $maiusculas, $minusculas, $numeros, $simbol
     // retorna a senha embaralhada com "str_shuffle" com o tamanho definido pela variável $tamanho
     return substr(str_shuffle($senha), 0, $tamanho);
 }
+
+function gateway(string $gateway = null)
+{
+    switch ($gateway) {
+        case 'mercado_pago':
+            $gateway = "Mercado Pago";
+            break;
+        case 'hotmart':
+            $gateway = "Hotmart";
+            break;
+        default:
+            $gateway = "";
+    }
+    return $gateway;
+}

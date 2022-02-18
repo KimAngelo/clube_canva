@@ -31,6 +31,7 @@
                                 <th>Nome</th>
                                 <th>E-mail</th>
                                 <th>Plano</th>
+                                <th>Dt. Assinatura</th>
                                 <th>Status</th>
                                 <th>Downloads</th>
                                 <th>Ação</th>
@@ -42,6 +43,7 @@
                                     <td><?= $user->first_name . " " . $user->last_name ?></td>
                                     <td><?= $user->email ?></td>
                                     <td><?= $user->plan()->name ?></td>
+                                    <td><?= date_fmt($user->created_at, 'd/m/Y H\hi') ?></td>
                                     <td>
                                         <?= status($user->status) ?>
                                     </td>

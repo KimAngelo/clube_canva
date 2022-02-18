@@ -75,6 +75,11 @@ class User extends DataLayer
         return (new Plan())->findById($this->id_plan);
     }
 
+    public function findByEmail($email)
+    {
+        return $this->find('email = :e', "e={$email}")->fetch();
+    }
+
     public function countDown()
     {
         return (new History())->find('id_user = :id_user', "id_user={$this->id}")->count();
