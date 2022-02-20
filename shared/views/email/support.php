@@ -1,4 +1,4 @@
-<?php $v->layout("_theme", ["title" => "E-mail de suporte"]); ?>
+<?php $this->layout("_theme", ["title" => "E-mail de suporte"]); ?>
 
 <h2>O <?= $first_name; ?> precisa de suporte</h2>
 <p><strong>Mensagem:</strong></p>

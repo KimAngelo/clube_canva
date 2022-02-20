@@ -173,16 +173,16 @@ class Auth extends Controller
         if (isset($data['csrf'])) {
             $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
 
-            if (!csrf_verify($data)) {
+            /*if (!csrf_verify($data)) {
                 $json['message'] = $this->message->error("Ooops! Tente novamente mais tarde!")->render();
                 echo json_encode($json);
                 return;
-            }
-            if (request_reapeat("authforget", $data['email'])) {
+            }*/
+            /*if (request_reapeat("authforget", $data['email'])) {
                 $json['message'] = $this->message->error("Ooops! Você já tentou este e-mail antes")->render();
                 echo json_encode($json);
                 return;
-            }
+            }*/
             if (empty($data["email"])) {
                 $json['message'] = $this->message->warning("Informe seu e-mail para continuar")->render();
                 echo json_encode($json);
@@ -205,7 +205,7 @@ class Auth extends Controller
             $user->forget = md5(uniqid(rand(), true));
             $user->save();
 
-            $view = new View($this->router, __DIR__ . "/../../shared/views/email");
+            $view = new View(["router" => $this->router], __DIR__ . "/../../shared/views/email");
             $message = $view->render("forget", [
                 "first_name" => $user->first_name,
                 "forget_link" => $this->router->route('auth.recover', ['code' => "{$user->email}|{$user->forget}"])
