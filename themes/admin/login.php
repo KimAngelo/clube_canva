@@ -35,7 +35,7 @@
                 <!--begin::Login Header-->
                 <div class="d-flex flex-center mb-15">
                     <a href="#">
-                        <img src="<?= url("/storage/images/site/Logo_Portal_Canva_430.png") ?>" class="w-75 max-h-200px"
+                        <img src="<?= url("/storage/images/site/cc1080.png") ?>" class="w-75 max-h-200px"
                              alt="<?= CONF_SITE_NAME ?>"/>
                     </a>
                 </div>
