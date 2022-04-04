@@ -10,6 +10,7 @@ use Source\Core\View;
 use Source\Models\Art;
 use Source\Models\ArtCategory;
 use Source\Models\Blog\Post;
+use Source\Models\Caption;
 use Source\Models\Category;
 use Source\Models\DynamicFields;
 use Source\Models\Faq;
@@ -18,6 +19,7 @@ use Source\Models\History;
 use Source\Models\Pack;
 use Source\Models\User;
 use Source\Support\Email;
+use Source\Support\OpenAI;
 use Source\Support\Pager;
 
 /**
@@ -496,6 +498,116 @@ class App extends Controller
         echo $this->view->render("favoriteCategories", [
             "head" => $head,
             "favorite_categories" => explode(';', $this->user->favorite_categories)
+        ]);
+    }
+
+    public function newCaption(?array $data)
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (isset($data['action']) && $data['action'] == 'generate') {
+            if (empty(trim($data['description'])) || strlen(trim($data['description'])) < 20) {
+                echo json_encode(['message_warning' => 'Me passe mais detalhes sobre o seu produto ou serviço para gerar uma legenda com mais qualidade']);
+                return;
+            }
+            $array_language = ['1', '2'];
+            if (!isset($data['language']) || !in_array($data['language'], $array_language)) {
+                echo json_encode(['message_warning' => 'Selecione a linguagem para gerar sua legenda']);
+                return;
+            }
+            $language = $data['language'] == 1 ? "formal" : "informal";
+            $credit_caption = env('CREDIT_CAPTION');
+            if ($this->user->credit_caption < $credit_caption) {
+                $this->message->info("{$this->user->first_name}, você não possui saldo suficiente em créditos para gerar uma nova legenda, entre em contato com o suporte para adquirir mais créditos")->flash();
+                echo json_encode(['refresh' => true]);
+                return;
+            }
+            if (isset($data['emoji'])) {
+                if ($data['emoji'] == 'true') {
+                    $emoji = ' com emojis';
+                } else {
+                    $emoji = '';
+                }
+            }
+            $prompt_caption = "Escreva um texto para facebook com linguagem {$language}{$emoji} sobre: {$data['description']}";
+
+            $openai_caption = (new OpenAI())->davinci0001(
+                $prompt_caption,
+                0,
+                400,
+                0,
+                0,
+                1
+            )->callback();
+            if (isset($openai_caption->choices)) {
+                $caption_return = trim($openai_caption->choices[0]->text);
+                //Gerar Hashtag
+                $hashtag_caption = "Escreva hashtags para instagram sobre: {$data['description']}";
+                $openai_hashtag = (new OpenAI())->davinci0001(
+                    $hashtag_caption,
+                    0,
+                    100,
+                    0,
+                    0,
+                    1
+                )->callback();
+
+                if (isset($openai_hashtag->choices)) {
+                    $caption_return .= "\n\n" . trim($openai_hashtag->choices[0]->text);
+                }
+
+                $caption = new Caption();
+                $caption->description = $data['description'];
+                $caption->language = $data['language'];
+                $caption->credit = $credit_caption;
+                $caption->caption = $caption_return;
+                $caption->id_user = $this->user->id;
+                $caption->id_openai = $openai_caption->id;
+                $caption->model_openai = $openai_caption->model;
+                $caption->save();
+                if ($caption->fail()) {
+                    echo $caption->fail()->getMessage();
+                    return;
+                }
+
+                $this->user->credit_caption -= $credit_caption;
+                $this->user->save();
+
+                echo json_encode(['success' => true, 'caption' => $caption_return, 'balance' => $this->user->credit_caption]);
+                return;
+            }
+            echo json_encode(['message_error' => "{$this->user->first_name}, não consegui gerar sua legenda, entre em contato com o suporte para te ajudar ok :)"]);
+            return;
+        }
+        $head = $this->seo->render(
+            "Gerar legenda para rede social | " . CONF_SITE_NAME,
+            CONF_SITE_DESC,
+            $this->router->route("app.new.caption"),
+            image(CONF_SITE_SHARE, 1200, 630, CONF_UPLOAD_IMAGE_DIR_SITE),
+            false
+        );
+
+        echo $this->view->render("newCaption", [
+            "head" => $head
+        ]);
+    }
+
+    public function myCaptions()
+    {
+        $captions = (new Caption())->find("id_user = :id_user", "id_user={$this->user->id}")->order("created_at DESC")->fetch(true);
+        if (empty($captions)) {
+            $this->router->redirect('app.new.caption');
+        }
+        $head = $this->seo->render(
+            "Minhas legendas | " . CONF_SITE_NAME,
+            CONF_SITE_DESC,
+            $this->router->route("app.my.captions"),
+            image(CONF_SITE_SHARE, 1200, 630, CONF_UPLOAD_IMAGE_DIR_SITE),
+            false
+        );
+
+        echo $this->view->render("myCaptions", [
+            "head" => $head,
+            "captions" => $captions
         ]);
     }
 

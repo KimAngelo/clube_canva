@@ -55,7 +55,7 @@ define("CONF_SITE_EMAIL", "");
  */
 define("CONF_IMAGE_LOGO", 'logo.png');//500x200
 define("CONF_IMAGE_ICON", 'icon.png');//150x150
-define("CONF_SITE_SHARE", 'banner-share.png');//1280x620
+define("CONF_SITE_SHARE", 'share_clube_canva.png');//1280x630
 
 /**
  * SOCIAL

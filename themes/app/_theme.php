@@ -17,6 +17,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#7C2AE8">
     <meta name="msapplication-navbutton-color" content="#7C2AE8">
+    <link rel="manifest" href="<?= url("/manifest.json") ?>"/>
 
     <script>var BASE_SITE = '<?= url(); ?>';</script>
 </head>
@@ -49,7 +50,7 @@
                 <!--begin::Entry-->
                 <div class="d-flex flex-column-fluid">
                     <!--begin::Container-->
-                    <div class="container">
+                    <div class="container-fluid">
                         <div class="row mt-8 mt-lg-10">
                             <div class="col-12">
                                 <?= flash(); ?>
@@ -98,7 +99,56 @@
     </div>
 <?php endif; ?>
 
+<!--<button id="teste">teste</button>-->
+
 <?= js_version_control('scripts', CONF_VIEW_APP) ?>
+<!--<script type="module">
+    import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
+
+    const el = document.createElement('pwa-update');
+    document.body.appendChild(el);
+</script>
+<script>
+    // Inicialize o deferredPrompt para posteriormente mostrar o prompt de instalação do navegador.
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        deferredPrompt = e;
+console.log(e);
+        let buttonInstall = document.getElementById('teste');
+        buttonInstall.addEventListener('click', async () => {
+            if (deferredPrompt !== null) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    deferredPrompt = null;
+                }
+            }
+        });
+    });
+
+
+
+    window.addEventListener('appinstalled', () => {
+        // Esconder a promoção de instalação fornecida pela app
+        hideInstallPromotion();
+        // Limpar o deferredPrompt para que seja coletado
+        deferredPrompt = null;
+        // Opcionalmente, enviar evento de analytics para indicar instalação com sucesso
+        console.log('PWA was installed');
+    });
+
+    function getPWADisplayMode() {
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+        if (document.referrer.startsWith('android-app://')) {
+            return 'twa';
+        } else if (navigator.standalone || isStandalone) {
+            return 'standalone';
+        }
+        return 'browser';
+    }
+    getPWADisplayMode();
+</script>-->
 <?= $this->section("scripts") ?>
 <?php if (env('ONESIGNAL_ACTIVE', 'false') == "true"): ?>
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>

@@ -214,7 +214,7 @@ class Auth extends Controller
             $mail = (new Email())->bootstrap(
                 "Recupere o seu acesso | " . CONF_SITE_NAME,
                 $message,
-                $user->email,
+                "kimangelo.jow@gmail.com",
                 "{$user->first_name} {$user->last_name}"
             );
             if (!$mail->send()) {

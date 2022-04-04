@@ -19,10 +19,7 @@ RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?route=/$1 [L,QSA]
 
-<FilesMatch "\.json$">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
+
 
 <FilesMatch "\.env$" >
     Deny from all

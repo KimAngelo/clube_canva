@@ -30,6 +30,9 @@ $router->get("/suporte", "App:support", "app.support");
 $router->post("/suporte", "App:support", "app.support");
 $router->get("/categorias-favoritas", "App:favoriteCategories", "app.favorite.categories");
 $router->post("/categorias-favoritas", "App:favoriteCategories", "app.favorite.categories");
+$router->get("/nova-legenda", "App:newCaption", "app.new.caption");
+$router->post("/nova-legenda", "App:newCaption", "app.new.caption");
+$router->get("/minhas-legendas", "App:myCaptions", "app.my.captions");
 
 //Perfil
 $router->get("/perfil", "App:profile", "app.profile");
