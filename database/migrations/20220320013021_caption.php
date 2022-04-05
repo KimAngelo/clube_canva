@@ -8,14 +8,14 @@ final class Caption extends AbstractMigration
 
     public function change(): void
     {
-        /*$table = $this->table('plans');
+        $table = $this->table('plans');
         $table->addColumn('credit_caption', 'integer', ['null' => true, 'after' => 'period'])
             ->addColumn('price', 'decimal', ['precision' => 10, 'scale' => 2, 'null' => true, 'after' => 'period'])
             ->update();
 
         $table = $this->table('users');
         $table->addColumn('credit_caption', 'integer', ['null' => true, 'after' => 'next_due'])
-            ->update();*/
+            ->update();
 
         $table = $this->table('caption');
         $table->addColumn('description', 'text')
